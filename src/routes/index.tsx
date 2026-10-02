@@ -19,6 +19,7 @@ export const Route = createFileRoute("/")({
 });
 
 const CTA = "Sí, quiero que mi hijo disfrute de las matemáticas";
+const CHECKOUT_URL = "https://pay.hotmart.com/Y107836824X?checkoutMode=10";
 
 const problems = [
   ["📉", "Brecha creciente", "Mientras otros niños avanzan con confianza, el tuyo se queda atrás, y la brecha crece cada mes."],
@@ -62,10 +63,9 @@ const faqs = [
   ["¿Puedo cancelar cuando quiera?", "Sí. Sin penalizaciones ni llamadas molestas, desde tu panel."],
 ];
 
-function CtaButton({ variant = "gradient", className = "" }: { variant?: "gradient" | "light"; className?: string }) {
-  const base = "inline-block rounded-full font-display font-semibold text-center transition-transform hover:scale-[1.02]";
-  const v = variant === "gradient" ? "gradient-brand text-primary-foreground shadow-glow px-7 py-3.5" : "bg-secondary text-secondary-foreground px-8 py-4";
-  return <a href="#oferta" className={`${base} ${v} ${className}`}>{CTA}</a>;
+function CtaButton({ className = "" }: { className?: string }) {
+  const base = "cta-motion inline-flex items-center justify-center rounded-full gradient-brand px-7 py-3.5 font-display font-semibold text-center text-primary-foreground shadow-glow transition-transform hover:scale-[1.03] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background";
+  return <a href={CHECKOUT_URL} className={`${base} ${className}`}>{CTA}</a>;
 }
 
 function SectionTitle({ eyebrow, title, sub }: { eyebrow: string; title: string; sub?: string }) {
@@ -82,10 +82,10 @@ function Index() {
   return (
     <div className="min-h-screen bg-background text-foreground overflow-hidden relative">
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -top-40 -left-40 size-[520px] rounded-full bg-primary/30 blur-[120px]" />
-        <div className="absolute top-[18%] -right-40 size-[560px] rounded-full bg-accent/25 blur-[130px]" />
-        <div className="absolute top-[45%] left-1/3 size-[480px] rounded-full bg-magenta/20 blur-[130px]" />
-        <div className="absolute bottom-40 -left-20 size-[480px] rounded-full bg-primary/20 blur-[130px]" />
+        <span className="math-symbol absolute top-36 left-[3%] text-primary">+</span>
+        <span className="math-symbol math-symbol-slow absolute top-[27%] right-[4%] text-accent">−</span>
+        <span className="math-symbol absolute top-[52%] left-[5%] text-magenta">+</span>
+        <span className="math-symbol math-symbol-slow absolute top-[76%] right-[6%] text-primary">−</span>
       </div>
       <div className="pointer-events-none absolute inset-x-0 top-0 h-[1000px] overflow-hidden">
         <div className="animate-drift absolute top-24 left-[8%] h-[220px] w-[420px] rounded-3xl glass" />
@@ -104,7 +104,7 @@ function Index() {
             <a className="hover:text-foreground" href="#opiniones">Opiniones</a>
             <a className="hover:text-foreground" href="#preguntas">Preguntas</a>
           </div>
-          <a href="#oferta" className="rounded-full glass px-5 py-2 text-sm font-medium hover:bg-muted">Empezar</a>
+          <a href={CHECKOUT_URL} className="cta-motion rounded-full gradient-brand px-5 py-2 text-sm font-semibold text-primary-foreground shadow-glow transition-transform hover:scale-[1.03]">Empezar</a>
         </nav>
 
         {/* hero */}
@@ -207,17 +207,18 @@ function Index() {
           </div>
           <div className="rounded-3xl gradient-soft border border-accent/25 backdrop-blur-xl p-8 flex flex-col">
             <span className="text-xs uppercase tracking-[0.15em] text-accent">⏰ Precio especial por tiempo limitado</span>
-            <div className="mt-4 flex items-end gap-3">
-              <span className="font-display text-6xl font-bold">$6,99</span>
-              <span className="text-sm text-muted-foreground mb-2">/mes</span>
-              <span className="text-muted-foreground line-through mb-2">antes $14,99</span>
+            <div className="mt-4 flex flex-wrap items-end gap-3">
+              <span className="font-display text-6xl font-bold text-gradient">$6,99</span>
+              <span className="text-sm text-muted-foreground mb-2">ahora / mes</span>
+              <span className="mb-2 rounded-full bg-muted px-3 py-1 text-sm text-muted-foreground line-through">Antes $14,99</span>
             </div>
+            <p className="mt-2 font-display text-sm font-semibold text-accent">Ahorras $8 cada mes</p>
             <p className="mt-3 text-sm text-muted-foreground">Acceso instantáneo. Empiezas a aprender en menos de 2 minutos. Sin sorpresas ocultas, sin compromisos. Cancela cuando quieras.</p>
             <div className="mt-6 rounded-2xl glass p-5">
               <p className="font-display font-semibold">🛡️ Garantía de 7 días</p>
               <p className="mt-1 text-sm text-muted-foreground">Si en 7 días no ves progreso real, confianza o disfrute, te devolvemos el 100% sin preguntas.</p>
             </div>
-            <a href="#" className="mt-auto pt-6"><span className="block w-full rounded-full bg-secondary text-secondary-foreground font-display font-semibold py-4 text-center hover:scale-[1.01] transition-transform">{CTA}</span></a>
+            <CtaButton className="mt-auto w-full py-4" />
           </div>
         </section>
 
@@ -295,7 +296,7 @@ function Index() {
             <p className="text-xs uppercase tracking-[0.15em] text-accent">⭐ Los niños que empiezan temprano tienen 3,5× más probabilidades de sobresalir</p>
             <h2 className="mt-4 font-display text-3xl md:text-4xl font-bold tracking-tight text-balance">Tu hijo merece crecer con confianza en las matemáticas.</h2>
             <p className="mt-3 text-muted-foreground max-w-2xl mx-auto">Merece experimentar la victoria, desbloquear logros y sentir que es capaz. Dale 7 días a MatFunny: si no ves resultados, te devolvemos tu dinero.</p>
-            <CtaButton variant="light" className="mt-6" />
+            <CtaButton className="mt-6" />
             <p className="mt-3 text-sm text-muted-foreground">$6,99/mes · Garantía de 7 días · Sin compromiso</p>
           </div>
         </section>
